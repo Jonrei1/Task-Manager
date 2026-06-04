@@ -60,7 +60,7 @@ body {
 .dashboard-layout {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 80px auto 1fr;
+  grid-template-rows: auto auto 1fr;
   grid-template-areas:
     "header"
     "statcards"
@@ -73,9 +73,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-3);
   border-bottom: var(--border-width) solid var(--color-border);
   background: var(--color-primary); /* Bold header */
+  min-height: 80px;
 }
 
 .dashboard-header h2 {
@@ -97,6 +98,44 @@ body {
   padding: var(--spacing-3);
   overflow-y: auto;
 }
+
+/* Header Controls & Inputs */
+.header-controls {
+  display: flex;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  width: 250px;
+  padding-right: 32px;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--color-text-muted);
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.filter-group {
+  display: flex;
+  gap: 12px;
+}
+
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
@@ -211,16 +250,23 @@ h1, h2, h3, h4, h5, h6 {
 
 .task-card {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: var(--spacing-3);
   padding: var(--spacing-2);
   margin-bottom: var(--spacing-3);
   transition: transform 0.1s;
   background: var(--color-surface-panel);
+  gap: var(--spacing-3);
 }
 .task-card:hover {
   transform: translate(-2px, -2px);
   box-shadow: 7px 7px 0px var(--color-border);
+}
+.task-card-body {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex: 1;
 }
 .task-card .content {
   flex: 1;
@@ -249,6 +295,28 @@ h1, h2, h3, h4, h5, h6 {
   border: 2px solid var(--color-border);
   text-transform: uppercase;
 }
+.task-card-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+.task-date {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+}
+.clock-icon {
+  opacity: 0.7;
+}
+
 .task-card .badge.active {
   background-color: var(--color-warning);
   color: #1C293C;
@@ -353,3 +421,112 @@ input[type="checkbox"]:active {
   transform: translate(2px, 2px);
   box-shadow: 0px 0px 0px var(--color-border);
 }
+
+/* Small Buttons (used in task cards for premium spacing) */
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 13px;
+  border-width: 2px;
+  box-shadow: 2px 2px 0px var(--color-border);
+}
+.btn-sm:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--color-border);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--spacing-2) var(--spacing-3);
+    gap: var(--spacing-2);
+  }
+  
+  .header-title {
+    margin-bottom: 0;
+    text-align: center;
+  }
+  
+  .header-controls {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: var(--spacing-2);
+  }
+  
+  .search-container {
+    width: 100%;
+  }
+  
+  .search-input {
+    width: 100%;
+  }
+  
+  .filter-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .filter-group .filter-btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    font-size: 14px;
+  }
+  
+  .add-task-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --spacing-3: 16px;
+    --spacing-4: 24px;
+  }
+
+  .dashboard-layout {
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dashboard-main {
+    overflow-y: visible;
+  }
+
+  .dashboard-statcards {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2);
+  }
+
+  .task-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3);
+  }
+
+  .task-card-body {
+    align-items: flex-start;
+  }
+
+  .task-card-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-top: 2px dashed var(--color-border);
+    padding-top: var(--spacing-2);
+    margin-top: var(--spacing-1);
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: var(--spacing-3);
+    box-shadow: 4px 4px 0px var(--color-border);
+  }
+}
+

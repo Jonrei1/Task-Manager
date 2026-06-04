@@ -6,7 +6,10 @@ const getTasks = async (req, res, next) => {
     let baseFilter = {};
 
     if (search) {
-      baseFilter.title = { $regex: search, $options: 'i' };
+      baseFilter.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
     }
 
     const totalCount = await Task.countDocuments(baseFilter);

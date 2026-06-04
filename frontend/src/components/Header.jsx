@@ -11,35 +11,20 @@ const Header = ({ search, onSearchChange, statusFilter, onFilterChange, onAddCli
 
   return (
     <>
-      <h2>Task Manager</h2>
-      <div style={{ display: 'flex', gap: 'var(--spacing-3)', alignItems: 'center' }}>
-        <div style={{ position: 'relative' }}>
+      <h2 className="header-title">Task Manager</h2>
+      <div className="header-controls">
+        <div className="search-container">
           <input 
             type="text" 
-            className="input-field" 
-            placeholder="Search tasks..." 
+            className="input-field search-input" 
+            placeholder="Search tasks by title or description..." 
             value={search} 
             onChange={onSearchChange} 
-            style={{ width: '250px', paddingRight: '32px' }}
           />
           {search && (
             <button
               onClick={() => onSearchChange({ target: { value: '' } })}
-              style={{
-                position: 'absolute',
-                right: '12px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '20px',
-                lineHeight: '1',
-                color: 'var(--color-text-muted)',
-                padding: '0',
-                display: 'grid',
-                placeItems: 'center'
-              }}
+              className="clear-search-btn"
               title="Clear search"
               aria-label="Clear search"
             >
@@ -48,10 +33,7 @@ const Header = ({ search, onSearchChange, statusFilter, onFilterChange, onAddCli
           )}
         </div>
         {/* Multi-Select Filters */}
-        <div style={{ 
-          display: 'flex', 
-          gap: '12px'
-        }}>
+        <div className="filter-group">
           {options.map(option => {
             const isActive = statusFilter === option.value;
             return (
@@ -66,7 +48,7 @@ const Header = ({ search, onSearchChange, statusFilter, onFilterChange, onAddCli
           })}
         </div>
 
-        <button className="btn btn-primary" onClick={onAddClick}>+ Add Task</button>
+        <button className="btn btn-primary add-task-btn" onClick={onAddClick}>+ Add Task</button>
       </div>
     </>
   );
