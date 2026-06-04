@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --color-primary: #FDC800;
+  --color-primary-hover: #e5b500;
+  --color-secondary: #432DD7;
+  --color-success: #16A34A;
+  --color-warning: #D97706;
+  --color-danger: #DC2626;
+  --color-danger-hover: #b91c1c;
+  --color-surface: #FBFBF9;
+  --color-surface-panel: #ffffff;
+  --color-surface-hover: #f3f3f0;
+  --color-text: #1C293C;
+  --color-text-muted: #4b5563;
+  --color-border: #1C293C;
+  
+  --font-family: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --spacing-1: 8px;
+  --spacing-2: 16px;
+  --spacing-3: 24px;
+  --spacing-4: 32px;
+  
+  --radius-sm: 0px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  
+  --border-width: 3px;
+  
+  --shadow-sm: 3px 3px 0px var(--color-border);
+  --shadow-md: 5px 5px 0px var(--color-border);
+  --shadow-glass: var(--shadow-md); /* Repurposing to brutalist panel shadow */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Brutalist Panel Utility */
+.glass-panel, .brutalist-panel {
+  background: var(--color-surface-panel);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+/* Dashboard Layout */
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 80px auto 1fr;
+  grid-template-areas:
+    "header"
+    "statcards"
+    "main";
+  height: 100vh;
+}
+
+.dashboard-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-3);
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: var(--color-primary); /* Bold header */
+}
+
+.dashboard-header h2 {
+  margin-bottom: 0;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.dashboard-statcards {
+  grid-area: statcards;
+  padding: var(--spacing-3) var(--spacing-3) 0 var(--spacing-3);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.dashboard-main {
+  grid-area: main;
+  padding: var(--spacing-3);
+  overflow-y: auto;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin-bottom: var(--spacing-2);
+  color: var(--color-text);
+}
+
+/* Components */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border: var(--border-width) solid var(--color-border);
+  transition: all 0.1s ease-in-out;
+  color: var(--color-text);
+  gap: var(--spacing-1);
+  box-shadow: var(--shadow-sm);
+  background-color: var(--color-surface-panel);
+}
+
+.btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px 0px var(--color-border);
+}
+
+.btn-primary {
+  background-color: var(--color-secondary);
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: #3723b5;
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #fff;
+}
+.btn-danger:hover:not(:disabled) {
+  background-color: var(--color-danger-hover);
+}
+
+.btn-ghost {
+  background-color: var(--color-surface-panel);
+  border: var(--border-width) solid var(--color-border);
+}
+.btn-ghost:hover {
+  background-color: var(--color-surface-hover);
+}
+.btn-ghost:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px 0px var(--color-border);
+}
+
+.input-field {
+  background: var(--color-surface-panel);
+  border: var(--border-width) solid var(--color-border);
+  color: var(--color-text);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-weight: 500;
+  width: 100%;
+  box-shadow: inset 2px 2px 0px rgba(0,0,0,0.05);
+  transition: all 0.1s;
+}
+.input-field:focus {
+  outline: none;
+  box-shadow: var(--shadow-sm);
+  transform: translate(-1px, -1px);
+}
+
+/* Cards & Modals */
+.stat-card {
+  padding: var(--spacing-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  background: var(--color-primary); 
+}
+.stat-card:nth-child(2) {
+  background: var(--color-success);
+}
+.stat-card:nth-child(3) {
+  background: var(--color-secondary);
+  color: #fff;
+}
+.stat-card:nth-child(3) .label {
+  color: rgba(255,255,255,0.8);
+}
+.stat-card .value {
+  font-size: 35px;
+  font-weight: 800;
+}
+.stat-card .label {
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
+  transition: transform 0.1s;
+  background: var(--color-surface-panel);
+}
+.task-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0px var(--color-border);
+}
+.task-card .content {
+  flex: 1;
+}
+.task-card.completed {
+  background-color: #e5e7eb;
+}
+.task-card.completed .title {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+.task-card .title {
+  font-size: 17px;
+  font-weight: 700;
+}
+.task-card .description {
+  color: var(--color-text-muted);
+  font-size: 15px;
+  margin-top: 4px;
+}
+.task-card .badge {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  text-transform: uppercase;
+}
+.task-card .badge.active {
+  background-color: var(--color-warning);
+  color: #1C293C;
+}
+.task-card .badge.completed {
+  background-color: var(--color-success);
+  color: #fff;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(28, 41, 60, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  width: 100%;
+  max-width: 500px;
+  padding: var(--spacing-4);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  box-shadow: 8px 8px 0px var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+/* Filter Buttons */
+.filter-btn {
+  padding: 8px 16px;
+  border: var(--border-width) solid var(--color-border);
+  background: var(--color-surface-panel);
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.1s;
+  font-size: 15px;
+  font-family: inherit;
+}
+.filter-btn:hover {
+  background: var(--color-surface-hover);
+}
+.filter-btn.active {
+  background: var(--color-secondary);
+  color: #fff;
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px 0px var(--color-border);
+}
+
+.error-text {
+  color: var(--color-danger);
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 4px;
+  padding: var(--spacing-2);
+  border: var(--border-width) solid var(--color-danger);
+  background: #fef2f2;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Brutalist Checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 28px !important;
+  height: 28px !important;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--color-border);
+  transition: all 0.1s;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--color-surface-panel);
+  transform-origin: center;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--color-success);
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+input[type="checkbox"]:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--color-border);
+}
