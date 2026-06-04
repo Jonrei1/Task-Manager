@@ -6,7 +6,8 @@ const connectDB = require('./src/config/db');
 connectDB();
 
 const app = express();
-app.use(cors({ origin: process.env.CLIENT_URL }));
+const allowedOrigins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : '*';
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 app.use('/api/tasks', require('./src/routes/taskRoutes'));
