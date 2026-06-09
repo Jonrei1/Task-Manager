@@ -8,6 +8,7 @@ export const useTasks = () => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all'); 
+  const [dateFilter, setDateFilter] = useState('');
   const [stats, setStats] = useState({ total: 0, active: 0, completed: 0 });
 
   // Debounce the search input
@@ -29,7 +30,16 @@ export const useTasks = () => {
         backendStatus = 'completed';
       }
 
-      const response = await fetchTasks(debouncedSearch, backendStatus);
+      let startDate = '';
+      let endDate = '';
+      if (dateFilter) {
+        const start = new Date(`${dateFilter}T00:00:00`);
+        const end = new Date(`${dateFilter}T23:59:59.999`);
+        startDate = start.toISOString();
+        endDate = end.toISOString();
+      }
+
+      const response = await fetchTasks(debouncedSearch, backendStatus, startDate, endDate);
       setTasks(response.data.data);
       if (response.data.stats) {
         setStats(response.data.stats);
@@ -39,7 +49,7 @@ export const useTasks = () => {
     } finally {
       if (showLoading) setLoading(false);
     }
-  }, [debouncedSearch, statusFilter]);
+  }, [debouncedSearch, statusFilter, dateFilter]);
 
   useEffect(() => {
     loadTasks();
@@ -116,6 +126,8 @@ export const useTasks = () => {
     setSearch,
     statusFilter,
     setStatusFilter,
+    dateFilter,
+    setDateFilter,
     stats,
     loadTasks,
     addTask,

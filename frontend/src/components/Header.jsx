@@ -1,4 +1,4 @@
-const Header = ({ search, onSearchChange, statusFilter, onFilterChange, onAddClick }) => {
+const Header = ({ search, onSearchChange, statusFilter, onFilterChange, dateFilter, onDateChange, onAddClick }) => {
   const options = [
     { value: 'all', label: 'All' },
     { value: 'active', label: 'Active' },
@@ -27,6 +27,27 @@ const Header = ({ search, onSearchChange, statusFilter, onFilterChange, onAddCli
               className="clear-search-btn"
               title="Clear search"
               aria-label="Clear search"
+            >
+              &times;
+            </button>
+          )}
+        </div>
+        {/* Date Filter */}
+        <div className="search-container">
+          <input 
+            type="date" 
+            className="input-field date-input" 
+            value={dateFilter} 
+            onChange={onDateChange} 
+            aria-label="Filter by date"
+            title="Filter by date"
+          />
+          {dateFilter && (
+            <button
+              onClick={() => onDateChange({ target: { value: '' } })}
+              className="clear-search-btn"
+              title="Clear date filter"
+              aria-label="Clear date filter"
             >
               &times;
             </button>

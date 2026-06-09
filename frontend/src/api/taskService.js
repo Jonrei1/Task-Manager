@@ -14,8 +14,8 @@ apiClient.interceptors.response.use(
   }
 );
 
-export const fetchTasks = (search = '', status = 'all') =>
-  apiClient.get(`/tasks`, { params: { search, status } });
+export const fetchTasks = (search = '', status = 'all', startDate = '', endDate = '') =>
+  apiClient.get(`/tasks`, { params: { search, status, startDate, endDate } });
 
 export const createTask = (data) => apiClient.post(`/tasks`, data);
 export const updateTask = (id, data) => apiClient.put(`/tasks/${id}`, data);

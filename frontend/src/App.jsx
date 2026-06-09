@@ -9,7 +9,7 @@ import ConfirmDialog from './components/ConfirmDialog';
 function App() {
   const {
     tasks, loading, error, search, setSearch,
-    statusFilter, setStatusFilter, stats, addTask, editTask, toggleComplete, removeTask,
+    statusFilter, setStatusFilter, dateFilter, setDateFilter, stats, addTask, editTask, toggleComplete, removeTask,
     removeTaskOptimistic, undoRemoveTaskOptimistic, commitDeleteTask
   } = useTasks();
 
@@ -24,7 +24,7 @@ function App() {
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, statusFilter]);
+  }, [search, statusFilter, dateFilter]);
 
   const totalPages = Math.max(1, Math.ceil(tasks.length / tasksPerPage));
   const indexOfLastTask = currentPage * tasksPerPage;
@@ -98,6 +98,8 @@ function App() {
           onSearchChange={(e) => setSearch(e.target.value)} 
           statusFilter={statusFilter}
           onFilterChange={setStatusFilter}
+          dateFilter={dateFilter}
+          onDateChange={(e) => setDateFilter(e.target.value)}
           onAddClick={handleAddClick} 
         />
       </div>

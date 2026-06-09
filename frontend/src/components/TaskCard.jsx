@@ -1,4 +1,9 @@
 const TaskCard = ({ task, onToggle, onEdit, onDelete }) => {
+  const formattedDate = new Date(task.createdAt).toLocaleString(undefined, {
+    year: 'numeric', month: 'short', day: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+
   return (
     <div className={`glass-panel task-card ${task.completed ? 'completed' : ''}`}>
       <div className="task-card-body">
@@ -11,6 +16,11 @@ const TaskCard = ({ task, onToggle, onEdit, onDelete }) => {
         <div className="content">
           <div className="title">{task.title}</div>
           {task.description && <div className="description">{task.description}</div>}
+          {task.createdAt && (
+            <div className="task-date">
+              <span className="clock-icon" style={{ marginRight: '4px' }}>🕒</span> {formattedDate}
+            </div>
+          )}
         </div>
       </div>
       <div className="task-card-footer">

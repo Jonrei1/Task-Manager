@@ -2,7 +2,7 @@ const Task = require('../models/Task');
 
 const getTasks = async (req, res, next) => {
   try {
-    const { search, status } = req.query;
+    const { search, status, startDate, endDate } = req.query;
     let baseFilter = {};
 
     if (search) {
@@ -10,6 +10,10 @@ const getTasks = async (req, res, next) => {
         { title: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } }
       ];
+    }
+
+    if (startDate && endDate) {
+      baseFilter.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
     }
 
     const totalCount = await Task.countDocuments(baseFilter);
