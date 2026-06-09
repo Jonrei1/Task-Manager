@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTasks } from './hooks/useTasks';
 import Header from './components/Header';
 import StatCards from './components/StatCards';
@@ -15,6 +15,25 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const tasksPerPage = 5;
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(tasks.length / tasksPerPage));
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+  const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
+
+  // Ensure current page is valid if items are deleted
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [tasks.length, currentPage, totalPages]);
 
   const handleAddClick = () => {
     setEditingTask(null);
@@ -65,12 +84,34 @@ function App() {
       <div className="dashboard-main">
         {error && <div className="error-text">{error}</div>}
         <TaskList 
-          tasks={tasks} 
+          tasks={currentTasks} 
           loading={loading} 
           onToggle={toggleComplete} 
           onEdit={handleEditClick} 
           onDelete={handleDeleteClick} 
         />
+        
+        {!loading && (
+          <div className="pagination">
+            <button 
+              className="btn btn-ghost pagination-btn" 
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </button>
+            <span className="pagination-info">
+              {currentPage} of {totalPages}
+            </span>
+            <button 
+              className="btn btn-ghost pagination-btn" 
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              &gt;
+            </button>
+          </div>
+        )}
       </div>
 
       <TaskModal 

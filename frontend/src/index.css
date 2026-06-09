@@ -434,6 +434,36 @@ input[type="checkbox"]:active {
   box-shadow: 0px 0px 0px var(--color-border);
 }
 
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-3);
+  padding-top: var(--spacing-3);
+  border-top: 3px dashed var(--color-border);
+}
+
+.pagination-btn {
+  padding: 4px 16px;
+  font-size: 20px;
+  font-weight: 900;
+  border-radius: var(--radius-sm); /* brutalist */
+}
+
+.pagination-info {
+  font-size: 18px;
+  font-weight: 800;
+  min-width: 40px;
+  text-align: center;
+  padding: 4px 12px;
+  background: var(--color-surface-panel);
+  border: var(--border-width) solid var(--color-border);
+  box-shadow: 4px 4px 0px var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
 /* Responsive Media Queries */
 @media (max-width: 768px) {
   .dashboard-header {
