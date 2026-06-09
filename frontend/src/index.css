@@ -560,3 +560,28 @@ input[type="checkbox"]:active {
   }
 }
 
+/* Undo Toast */
+.undo-toast {
+  position: fixed;
+  bottom: var(--spacing-4);
+  right: var(--spacing-4);
+  background: var(--color-surface-panel);
+  border: var(--border-width) solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-2) var(--spacing-3);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  z-index: 1100;
+  border-radius: var(--radius-md);
+  animation: slideInBottom 0.3s ease-out;
+}
+.undo-toast p {
+  margin: 0;
+  font-weight: 700;
+  font-size: 15px;
+}
+@keyframes slideInBottom {
+  from { transform: translateY(100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

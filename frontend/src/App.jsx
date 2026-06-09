@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTasks } from './hooks/useTasks';
 import Header from './components/Header';
 import StatCards from './components/StatCards';
@@ -9,12 +9,15 @@ import ConfirmDialog from './components/ConfirmDialog';
 function App() {
   const {
     tasks, loading, error, search, setSearch,
-    statusFilter, setStatusFilter, stats, addTask, editTask, toggleComplete, removeTask
+    statusFilter, setStatusFilter, stats, addTask, editTask, toggleComplete, removeTask,
+    removeTaskOptimistic, undoRemoveTaskOptimistic, commitDeleteTask
   } = useTasks();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [undoToast, setUndoToast] = useState(null);
+  const undoTimerRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 5;
 
@@ -58,10 +61,32 @@ function App() {
     setIsModalOpen(false);
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = () => {
     if (taskToDelete) {
-      await removeTask(taskToDelete);
+      const task = tasks.find(t => t._id === taskToDelete);
+      
+      if (undoToast) {
+        clearTimeout(undoTimerRef.current);
+        commitDeleteTask(undoToast._id);
+      }
+
+      removeTaskOptimistic(taskToDelete);
+
+      undoTimerRef.current = setTimeout(() => {
+        commitDeleteTask(task._id);
+        setUndoToast(null);
+      }, 5000);
+
+      setUndoToast(task);
       setTaskToDelete(null);
+    }
+  };
+
+  const handleUndoDelete = () => {
+    if (undoToast) {
+      clearTimeout(undoTimerRef.current);
+      undoRemoveTaskOptimistic(undoToast);
+      setUndoToast(null);
     }
   };
 
@@ -127,6 +152,15 @@ function App() {
         onConfirm={handleConfirmDelete} 
         onCancel={() => setTaskToDelete(null)} 
       />
+
+      {undoToast && (
+        <div className="undo-toast">
+          <p>Task deleted</p>
+          <button className="btn btn-sm btn-ghost" onClick={handleUndoDelete}>
+            Undo
+          </button>
+        </div>
+      )}
     </div>
   );
 }

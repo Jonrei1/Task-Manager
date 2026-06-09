@@ -79,6 +79,26 @@ export const useTasks = () => {
     }
   };
 
+  const removeTaskOptimistic = useCallback((id) => {
+    setTasks(prev => prev.filter(t => t._id !== id));
+  }, []);
+
+  const undoRemoveTaskOptimistic = useCallback((task) => {
+    setTasks(prev => {
+      const newTasks = [...prev, task];
+      return newTasks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    });
+  }, []);
+
+  const commitDeleteTask = useCallback(async (id) => {
+    try {
+      await deleteTask(id);
+      await loadTasks(false);
+    } catch (err) {
+      setError(err.message || 'Failed to delete task.');
+    }
+  }, [loadTasks]);
+
   const removeTask = async (id) => {
     try {
       await deleteTask(id);
@@ -101,6 +121,9 @@ export const useTasks = () => {
     addTask,
     editTask,
     toggleComplete,
-    removeTask
+    removeTask,
+    removeTaskOptimistic,
+    undoRemoveTaskOptimistic,
+    commitDeleteTask
   };
 };
